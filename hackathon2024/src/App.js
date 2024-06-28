@@ -162,7 +162,7 @@ function App() {
             <label for="calorie">calorie:</label>
             <input type="number" class="form-control" id="calorie" placeholder="Enter calorie" onChange={e => setCalorie(e.target.valueAsNumber)}></input>
           </div>
-          <button className='btn btn-primary mb-5'>
+          <button className='btn btn-primary mb-5' onClick={() => healthCalculation()}>
             Calculate Score!
           </button>
           {renderHealth()}
