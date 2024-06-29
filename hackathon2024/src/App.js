@@ -18,11 +18,14 @@ function App() {
   const [healthMsg, setHealthMsg] = useState([]);
   const [activityLevel, setActivityLevel] = useState(0);
 
-
+  const [errorMsg, setErrorMsg] = useState("");
   const [showBanner, setShowBanner] = useState(true);
 
   const checkValues = () => {
     var msg = "";
+    if (gender === "") {
+      msg = msg.concat("Please select a gender");
+    }
     if (age < 9 || age > 100) {
       msg = msg.concat("Please input valid age(9-100)\n");
     }
@@ -46,9 +49,6 @@ function App() {
     }
     if (activityLevel < 1 || activityLevel > 5) {
       msg = msg.concat("Please input valid activity level\n");
-    }
-    if (gender === "") {
-      msg = msg.concat("Please select a gender");
     }
     return msg;
   }
@@ -138,12 +138,10 @@ function App() {
     // The zero is a placeholder so that we can do activityFactor[activityLevel]
 
     const msg = checkValues();
-    if (msg) {
-      return (
-        <>
-          {msg}
-        </>
-      )
+    if (msg !== "") {
+      setErrorMsg(msg);
+      setHealthiness(-1);
+      return;
     }
 
     let activityFactor = [0, 1.2, 1.375, 1.55, 1.725, 1.9];
@@ -377,6 +375,22 @@ function App() {
   const renderHealth = () => {
     if (healthiness === 0) {
       return (<></>);
+    }
+    if (healthiness === -1) {
+      return (
+        <>
+           <div className='contanier-lg text-light p-5 border rounded text-center'>
+            <div className='text-wrap w-100'>
+              {
+               errorMsg.split('\n').map(msg => {
+                return (
+                  <p>{msg}</p>
+                )
+               })
+              }
+            </div>
+           </div>
+        </>);
     }
     return (
     <>
