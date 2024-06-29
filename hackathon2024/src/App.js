@@ -22,7 +22,7 @@ function App() {
   const [showBanner, setShowBanner] = useState(true);
 
   const checkValues = () => {
-    const msg = "";
+    var msg = "";
     if (age < 9 || age > 100) {
       msg = msg.concat("Please input valid age(9-100)\n");
     }
@@ -39,7 +39,7 @@ function App() {
       msg = msg.concat("Please input valid protein(10-200)\n");
     }
     if (carbohydrates < 50 || carbohydrates > 1000) {
-      msg = msg.concat("Please input valid carbohydrates(50-1000)");
+      msg = msg.concat("Please input valid carbohydrates(50-1000)\n");
     }
     if (fiber < 5 || fiber > 100) {
       msg = msg.concat("Please input valid fiber(5-100)\n");
