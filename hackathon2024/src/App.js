@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { useEffect, useState } from 'react';
+import React, { act, useEffect, useState } from 'react';
 
 function App() {
   
@@ -38,6 +38,148 @@ function App() {
    * If u want, i could probably add exercise amount too, but it just might make it a bit more annoying 
    */
   const healthCalculation = () => {
+    // User data: gender (M/F), age (9-100), height (120-220 cm), weight (20-200 kg), activity level (1-5)
+    // Nutrients: calorie (500-10000 kal),protein (10-200 g), carbohydrates (g), fibre (5-100 g)
+    // Result: score (100), healthiness (5), healthMsg: string[]
+
+    /**
+     * Sore will be calculated via weighted geometric average comprised of:
+     *    1- 0.2 BMI
+     *    2- 0.35 BMR/TDEE/Calorie
+     *    3- 0.25 Protein
+     *    4- 0.1 Carbohydrates
+     *    5- 0.1 Fibre
+     * 
+     * For BMI, they'll be a range, where if you fall away from that range, you'll get a lower bmiScore.
+     * For (2-5) we'll calculate the percentage difference between the ideal and recorded amounts (called nutrientNameScore).
+     * We apply scaling to every thingScore (heavier scaling if weighting is smaller), then do geometric average.
+     * 
+     * 
+     * Ideal BMI: weight (kg) / [height (m)]2
+     * bmiScore Will be capped at a minimum depending on activityLevel
+     * 
+     * Ideal BMR/TDEE/Calorie:
+     *    - Men	BMR = (10 × weight (kg)) + (6.25 × height (cm)) – (5 × age (years)) + 5
+     *    - Women	BMR = (10 × weight (kg)) + (6.25 × height (cm)) – (5 × age (years)) – 161
+     * Then to find TDEE (Total Daily Energy Expenditure), we multiply with an activityFactor:
+     *    - activityFactor: 1 => scalar: 1.2
+     *    - activityFactor: 2 => scalar: 1.375
+     *    - activityFactor: 3 => scalar: 1.55
+     *    - activityFactor: 4 => scalar: 1.725
+     *    - activityFactor: 5 => scalar: 1.9
+     * 
+     * Ideal Protein:
+     *    - activityLevel <= 2: 0.8 × weight (kg)
+     *    - 3 <= activityLevel <= 4: 1.2-1.6 x weight (kg)
+     *    - activityLevel = 5: 1.6-2.0 x weight (kg)
+     *    - If age > 70: 1.2 x weight
+     * 
+     * Ideal Carbohydrates: 0.25 * TDEE * (0.45-0.65)
+     * 
+     * Ideal Fibre: 
+     *    - Males:
+     *        - Ages 9-13     31 g
+     *        - Ages 4-18     38 g
+     *        - Ages 19-50    38 g
+     *        - Ages 51+      30 g
+     *    - Females:
+     *        - Ages 9-13     31 g
+     *        - Ages 4-18     26 g
+     *        - Ages 19-50    26 g
+     *        - Ages 51+      25 g
+     * 
+     * Geometric Weighted Average: product[(x_i)^(w_i)] ^ (sum of w_i)
+     *    We are calculating it this was cus it makes sense. Cry about it.
+     * 
+     * If your activityLevel is below a certain value, then your score will be capped at a certain level
+     * If activityLevel is above a certain range, then the rock bottom will be above a certain amount.
+     * 
+     */
+
+    /**
+     * Health Messages:
+     * 
+     * They will depend purely on each individual thingScore, and will be appended to an array.
+     * 
+     * They will look like "Your Fibre intake is too high/low! Ideal amount should be a-b"
+     */
+
+    // This variable is a placeholder until jono can fix it
+    let activityLevel;
+    // The zero is a placeholder so that we can do activityFactor[activityLevel]
+    let activityFactor = [0, 1.2, 1.375, 1.55, 1.725, 1.9];
+
+    // Calculating bmiIdeal, and bmiScore
+    let bmi = weight / ((height/100) * (height/100));
+    let bmiScore;
+    if (bmi < 10) {
+      bmiScore = 30           // 0-10
+    } else if (bmi < 16) {
+      bmiScore = 40           // 10-16
+    } else if (bmi < 17) {
+      bmiScore = 60           // 16-17
+    } else if (bmi < 18) {
+      bmiScore = 70           // 17-18
+    } else if (bmi < 18.5) {
+      bmiScore = 75           // 18-18.5
+    } else if (bmi < 25) {
+      bmiScore = 100          // 18.5-24.9
+    } else if (bmi < 30) {
+      if (activityLevel > 3) {
+        bmiScore = 90
+      } else {
+        bmiScore = 70           // 25-29.9
+      }
+    } else {
+      if (activityLevel > 5) {
+        bmiScore = 80
+      } else if (activityLevel > 3) {
+        bmiScore = 60
+      } else {
+        bmiScore = 40           // 30+
+      }
+    }
+
+    // Calculating idealCalorieIntake and calorieScore
+    let idealCalorieIntake = 0;
+    if (gender == "male") {
+      idealCalorieIntake = ((10 * weight) + (6.25 * height) - (5 * age) + 5) * activityFactor[activityLevel];
+    } else if (gender == "female") {
+      idealCalorieIntake = ((10 * weight) + (6.25 * height) - (5 * age) - 161) * activityFactor[activityLevel];
+    } else {
+      throw new Error('This is not supossed to happen for idealCalorie calculation');
+    }
+
+    let calorieScore = 100 * Math.abs(calorie - idealCalorieIntake) / idealCalorieIntake;
+
+    // Calculating idealProteinIntake and proteinScore
+    let lowIdealProteinIntake = weight;
+    let highIdealProteinIntake = weight;
+    if (age < 70) {
+      if (activityLevel <= 2) {
+        lowIdealProteinIntake *= 0.8;
+        highIdealProteinIntake *= 0.8;
+      } else if (activityLevel <= 4) {
+        lowIdealProteinIntake *= 1.2;
+        highIdealProteinIntake *= 1.6;
+      } else {
+        lowIdealProteinIntake *= 1.6;
+        highIdealProteinIntake *= 2.0;
+      }
+    } else {                        // They are over the age of 70
+      lowIdealProteinIntake *= 1.0;
+      highIdealProteinIntake *= 1.2;
+    }
+
+    let proteinScore;
+    if (lowIdealProteinIntake >= protein && highIdealProteinIntake <= protein) {
+      proteinScore = 100;
+    } else {
+      let lowProteinScore = 100 * Math.abs(protein - lowIdealProteinIntake) / lowIdealProteinIntake;
+      let highProteinScore = 100 * Math.abs(protein - highIdealProteinIntake) / highIdealProteinIntake;
+
+      proteinScore = max(lowProteinScore, highProteinScore);
+    }
 
   }
 
