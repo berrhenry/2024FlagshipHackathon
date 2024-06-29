@@ -10,9 +10,13 @@ function App() {
   const [height, setHeight] = useState(0);
   const [weight, setWeight] = useState(0);
   const [calorie, setCalorie] = useState(0);
+  const [fiber, setFiber] = useState(0);
+  const [protein, setProtein] = useState(0);
+  const [carbohydrates, setCarbohydrates] = useState(0);
   const [score, setScore] = useState(0);
   const [healthiness, setHealthiness] = useState(0);
   const [healthMsg, setHealthMsg] = useState("");
+
 
   const [showBanner, setShowBanner] = useState(true);
 
@@ -161,6 +165,27 @@ function App() {
             </h3>
             <label for="calorie">calorie:</label>
             <input type="number" class="form-control" id="calorie" placeholder="Enter calorie" onChange={e => setCalorie(e.target.valueAsNumber)}></input>
+          </div>
+          <div className='container-md bg-transparent rounded d-flex flex-column w-75 mb-5'>
+            <h3 className='text-center'>
+              What is your average protein intake?
+            </h3>
+            <label for="protein">protein:</label>
+            <input type="number" class="form-control" id="protein" placeholder="Enter Protein" onChange={e => setProtein(e.target.valueAsNumber)}></input>
+          </div>
+          <div className='container-md bg-transparent rounded d-flex flex-column w-75 mb-5'>
+            <h3 className='text-center'>
+              What is your average fiber intake?
+            </h3>
+            <label for="fiber">fiber:</label>
+            <input type="number" class="form-control" id="fiber" placeholder="Enter fiber" onChange={e => setFiber(e.target.valueAsNumber)}></input>
+          </div>
+          <div className='container-md bg-transparent rounded d-flex flex-column w-75 mb-5'>
+            <h3 className='text-center'>
+              What is your average carbohydrate intake?
+            </h3>
+            <label for="carbohydrate">carbohydrate:</label>
+            <input type="number" class="form-control" id="carbohydrate" placeholder="Enter carbohydrate (g)" onChange={e => setCarbohydrates(e.target.valueAsNumber)}></input>
           </div>
           <button className='btn btn-primary mb-5'>
             Calculate Score!
