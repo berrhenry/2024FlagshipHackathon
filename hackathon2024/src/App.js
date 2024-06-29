@@ -280,6 +280,18 @@ function App() {
     score = Math.min(score, maxScore);
     score = Math.max(score, 0);
     setScore(Math.floor(score));
+    
+    if (0 <= score && score <= 20) {
+      setHealthiness(1)
+    } else if (score <= 40) {
+      setHealthiness(2)
+    } else if (score <= 60) {
+      setHealthiness(3)
+    } else if (score <= 80) {
+      setHealthiness(4)
+    } else if (score <= 100) {
+      setHealthiness(5)
+    }
 
 
     // Filling out healthMsgTemp[]: string
