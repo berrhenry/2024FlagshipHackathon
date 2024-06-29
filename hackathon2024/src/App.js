@@ -47,6 +47,9 @@ function App() {
     if (activityLevel < 1 || activityLevel > 5) {
       msg = msg.concat("Please input valid activity level\n");
     }
+    if (gender === "") {
+      msg = msg.concat("Please select a gender");
+    }
     return msg;
   }
 
@@ -133,6 +136,16 @@ function App() {
      */
 
     // The zero is a placeholder so that we can do activityFactor[activityLevel]
+
+    const msg = checkValues();
+    if (msg) {
+      return (
+        <>
+          {msg}
+        </>
+      )
+    }
+
     let activityFactor = [0, 1.2, 1.375, 1.55, 1.725, 1.9];
 
     // Calculate idealWeight - This will be used in some formulas
