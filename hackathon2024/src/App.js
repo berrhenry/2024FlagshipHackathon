@@ -43,7 +43,7 @@ function App() {
     // Result: score (100), healthiness (5), healthMsg: string[]
 
     /**
-     * Sore will be calculated via weighted geometric average comprised of:
+     * Sore will be calculated via weighted average comprised of:
      *    1- 0.2 BMI
      *    2- 0.35 BMR/TDEE/Calorie
      *    3- 0.25 Protein
@@ -55,7 +55,7 @@ function App() {
      * We apply scaling to every thingScore (heavier scaling if weighting is smaller), then combine them.
      * 
      * 
-     * Ideal BMI: weight (kg) / [height (m)]2
+     * Ideal BMI: weight (kg) / [height (m)]^2
      * bmiScore Will be capped at a minimum depending on activityLevel
      * 
      * Ideal BMR/TDEE/Calorie:
@@ -229,6 +229,22 @@ function App() {
     }
     let fiberScore = 100 * Math.abs(fiber - idealFiber) / idealFiber;
 
+
+    // Finding out where to cap the finalScore (score)
+    let sinCounter = 0;
+    if (bmiScore <= 50) sinCounter++;
+    if (calorieScore <= 60) sinCounter++;
+    if (calorieScore <= 40) sinCounter++;
+    if (calorieScore <= 20) sinCounter++;
+    if (proteinScore <= 60) sinCounter++;
+    if (proteinScore <= 30) sinCounter++;
+    if (carbohydratesScore <= 50) sinCounter++;
+    if (fiberScore <= 50) sinCounter++;
+
+    let maxScore = 100 - 10 * sinCounter;
+
+    let score = 0.2 * bmiScore + 0.35 * calorieScore + 0.25 * proteinScore + 0.1 * carbohydratesScore + 0.1 * fiberScore;
+    score = min(score, maxScore);
   }
 
   const rateHealth = () => {
