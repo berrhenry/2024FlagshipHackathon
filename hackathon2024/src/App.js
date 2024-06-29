@@ -21,6 +21,35 @@ function App() {
 
   const [showBanner, setShowBanner] = useState(true);
 
+  const checkValues = () => {
+    const msg = "";
+    if (age < 9 || age > 100) {
+      msg = msg.concat("Please input valid age(9-100)\n");
+    }
+    if (height < 120 || height > 220) {
+      msg = msg.concat("Please input valid height(120-220)\n");
+    }
+    if (weight < 20 || weight > 200) {
+      msg = msg.concat("Please input valid weight(20-200)\n")
+    }
+    if (calorie < 500 || calorie > 10000) {
+      msg = msg.concat("Please input valid calorie(500-10000)\n");
+    }
+    if (protein < 10 || protein > 200) {
+      msg = msg.concat("Please input valid protein(10-200)\n");
+    }
+    if (carbohydrates < 50 || carbohydrates > 1000) {
+      msg = msg.concat("Please input valid carbohydrates(50-1000)");
+    }
+    if (fiber < 5 || fiber > 100) {
+      msg = msg.concat("Please input valid fiber(5-100)\n");
+    }
+    if (activityLevel < 1 || activityLevel > 5) {
+      msg = msg.concat("Please input valid activity level\n");
+    }
+    return msg;
+  }
+
   /**
    * This function should calculate how healthy u are
    * I only used calories since websites like calories calculators only take in calories. 
@@ -40,7 +69,7 @@ function App() {
    */
   const healthCalculation = () => {
     // User data: gender (M/F), age (9-100), height (120-220 cm), weight (20-200 kg), activity level (1-5)
-    // Nutrients: calorie (500-10000 kal),protein (10-200 g), carbohydrates (g), fibre (5-100 g)
+    // Nutrients: calorie (500-10000 kal),protein (10-200 g), carbohydrates (50-1000g), fibre (5-100 g)
     // Result: score (100), healthiness (5), healthMsg: string[]
 
     /**
@@ -377,7 +406,7 @@ function App() {
       return (
       <>
       <div className='fixed-bottom banner-height text-center' onClick={() => setShowBanner(false)}>
-        <small class="form-text text-muted">This application uses rough estimations. This is not professional advice</small>
+        <small class="form-text text-muted">This application uses rough estimations. This is <b>not</b> professional advice</small>
       </div>
       </>);
     }
