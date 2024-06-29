@@ -15,7 +15,7 @@ function App() {
   const [carbohydrates, setCarbohydrates] = useState(0);
   const [score, setScore] = useState(0);
   const [healthiness, setHealthiness] = useState(0);
-  const [healthMsg, setHealthMsg] = useState(["test1", "test2", "test3"]);
+  const [healthMsg, setHealthMsg] = useState([]);
   const [activityLevel, setActivityLevel] = useState(0);
 
 
@@ -321,22 +321,24 @@ function App() {
    * 
    */
   const renderHealth = () => {
-    // if (healthiness === 0) {
-    //   return (<></>);
-    // }
+    if (healthiness === 0) {
+      return (<></>);
+    }
     return (
     <>
        <div className='contanier-lg text-light p-5 border rounded text-center'>
         {rateHealth()}
         <h4>Your Score: {score}/100</h4>
         <div className='text-wrap w-100'>
-          <div class="text-wrap">
-            {
-              healthMsg.map((msg, index) => {
-                <p>{msg}</p>
-              })
-            }
-          </div>
+          {
+            healthMsg.map(msg => {
+              return (
+                <>
+                  <p>{msg}</p>
+                </>
+              )
+            })
+          }
         </div>
        </div>
     </>);
@@ -377,7 +379,7 @@ function App() {
       return (
       <>
       <div className='fixed-bottom banner-height text-center' onClick={() => setShowBanner(false)}>
-        <small class="form-text text-muted">This application uses rough estimations. This is not professional advice</small>
+        <small className="form-text text-muted">This application uses rough estimations. This is not professional advice</small>
       </div>
       </>);
     }
@@ -404,56 +406,56 @@ function App() {
               How old are you?
             </h3>
             <label for="age">Age:</label>
-            <input type="number" class="form-control" id="age" placeholder="Enter age" onChange={e => setAge(e.target.valueAsNumber)}></input>
+            <input type="number" className="form-control" id="age" placeholder="Enter age" onChange={e => setAge(e.target.valueAsNumber)}></input>
           </div>
           <div className='container-md bg-transparent rounded d-flex flex-column w-75 mb-5'>
             <h3 className='text-center'>
               How much do you weigh?
             </h3>
             <label for="weight">weight:</label>
-            <input type="number" class="form-control" id="weight" placeholder="Enter weight" onChange={e => setWeight(e.target.valueAsNumber)}></input>
+            <input type="number" className="form-control" id="weight" placeholder="Enter weight" onChange={e => setWeight(e.target.valueAsNumber)}></input>
           </div>
           <div className='container-md bg-transparent rounded d-flex flex-column w-75 mb-5'>
             <h3 className='text-center'>
               How tall are you?
             </h3>
             <label for="height">height:</label>
-            <input type="number" class="form-control" id="height" placeholder="Enter height in cm" onChange={e => setHeight(e.target.valueAsNumber)}></input>
+            <input type="number" className="form-control" id="height" placeholder="Enter height in cm" onChange={e => setHeight(e.target.valueAsNumber)}></input>
           </div>
           <div className='container-md bg-transparent rounded d-flex flex-column w-75 mb-5'>
             <h3 className='text-center'>
               What is your average calorie intake?
             </h3>
             <label for="calorie">calorie:</label>
-            <input type="number" class="form-control" id="calorie" placeholder="Enter calorie" onChange={e => setCalorie(e.target.valueAsNumber)}></input>
+            <input type="number" className="form-control" id="calorie" placeholder="Enter calorie" onChange={e => setCalorie(e.target.valueAsNumber)}></input>
           </div>
           <div className='container-md bg-transparent rounded d-flex flex-column w-75 mb-5'>
             <h3 className='text-center'>
               What is your average protein intake?
             </h3>
             <label for="protein">protein:</label>
-            <input type="number" class="form-control" id="protein" placeholder="Enter Protein" onChange={e => setProtein(e.target.valueAsNumber)}></input>
+            <input type="number" className="form-control" id="protein" placeholder="Enter Protein" onChange={e => setProtein(e.target.valueAsNumber)}></input>
           </div>
           <div className='container-md bg-transparent rounded d-flex flex-column w-75 mb-5'>
             <h3 className='text-center'>
               What is your average fiber intake?
             </h3>
             <label for="fiber">fiber:</label>
-            <input type="number" class="form-control" id="fiber" placeholder="Enter fiber" onChange={e => setFiber(e.target.valueAsNumber)}></input>
+            <input type="number" className="form-control" id="fiber" placeholder="Enter fiber" onChange={e => setFiber(e.target.valueAsNumber)}></input>
           </div>
           <div className='container-md bg-transparent rounded d-flex flex-column w-75 mb-5'>
             <h3 className='text-center'>
               What is your average carbohydrate intake?
             </h3>
             <label for="carbohydrate">carbohydrate:</label>
-            <input type="number" class="form-control" id="carbohydrate" placeholder="Enter carbohydrate (g)" onChange={e => setCarbohydrates(e.target.valueAsNumber)}></input>
+            <input type="number" className="form-control" id="carbohydrate" placeholder="Enter carbohydrate (g)" onChange={e => setCarbohydrates(e.target.valueAsNumber)}></input>
           </div>
           <div className='container-md bg-transparent rounded d-flex flex-column w-75 mb-5'>
             <h3 className='text-center'>
               How much activity do you do from 1-5?
             </h3>
             <label for="activityLevel">activity level:</label>
-            <input type="number" class="form-control" id="activityLevel" placeholder="1-5" onChange={e => {
+            <input type="number" className="form-control" id="activityLevel" placeholder="1-5" onChange={e => {
               if (e.target.valueAsNumber >= 1 && e.target.valueAsNumber <= 5) {
                 setActivityLevel(e.target.valueAsNumber);
               }
