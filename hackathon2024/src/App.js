@@ -34,7 +34,7 @@ function App() {
    * I have coded score is out of a 100
    * healthiness would be a range of 5, where 5 is most healthy, and 1 and pretty much dead. 
    * 
-   * HealthMsg would be displayed with the other stuff, we could make more changes later. 
+   * healthMsg would be displayed with the other stuff, we could make more changes later. 
    * 
    * If u want, i could probably add exercise amount too, but it just might make it a bit more annoying 
    */
@@ -246,6 +246,51 @@ function App() {
 
     let score = 0.2 * bmiScore + 0.35 * calorieScore + 0.25 * proteinScore + 0.1 * carbohydratesScore + 0.1 * fiberScore;
     score = min(score, maxScore);
+
+
+    // Filling out healthMsgTemp[]: string
+    let healthMsgTemp = [];
+    if (bmi < 18.5) {
+      healthMsgTemp.append('You are underweight! Your ideal weight should be betewen ' + lowIdealWeight + ' kg and ' + highIdealWeight + ' kg.');
+    } else if (bmi > 30) {
+      healthMsgTemp.append('You are overweight! Your ideal weight should be betewen ' + lowIdealWeight + ' kg and ' + highIdealWeight + ' kg.');
+    }
+    if (calorieScore < 70) {
+      if (calorie < idealCalorieIntake) {
+        healthMsgTemp.append('You are eating too little! Your ideal calorie intake should be approximately ' + idealCalorieIntake + ' cal.');
+      } else if (calorie > idealCalorieIntake){
+        healthMsgTemp.append('You are eating too much! Your ideal calorie intake should be approximately ' + idealCalorieIntake + ' cal.');
+      } else {
+        throw new Error('This is not supossed to happen for calories heathMsgTemp');
+      }
+    }
+    if (proteinScore < 60) {
+      if (proteinScore < lowIdealProteinIntake) {
+        healthMsgTemp.append('You are not consuming enough protein! Your ideal protein intake should be between ' + lowIdealProteinIntake + ' g and ' + highIdealProteinIntake + ' g.');
+      } else if (proteinScore > highIdealCarbohydrates){
+        healthMsgTemp.append('You are consuming too much protein! Your ideal protein intake should be between ' + lowIdealProteinIntake + ' g and ' + highIdealProteinIntake + ' g.');
+      } else {
+        throw new Error('This is not supossed to happen for calories heathMsgTemp');
+      }
+    }
+    if (carbohydratesScore < 70) {
+      if (carbohydrates < lowIdealCarbohydrates) {
+        healthMsgTemp.append('You are eating too little Carbohydrates! Your ideal Carbohydrate intake should be between ' + lowIdealCarbohydrates  + ' g and ' + highIdealCarbohydrates + ' g.');
+      } else if (carbohydrates < highIdealCarbohydrates) {
+        healthMsgTemp.append('You are eating too much Carbohydrates! Your ideal Carbohydrate intake should be between ' + lowIdealCarbohydrates  + ' g and ' + highIdealCarbohydrates + ' g.');
+      } else {
+        throw new Error('This is not supossed to happen for carbohydrates heathMsgTemp');
+      }
+    }
+    if (fiberScore < 60) {
+      if (fiber < idealFiber) {
+        healthMsgTemp.append('You are not consuming enough fiber! You should consume approximately ' + idealFiber + ' g of fiber.');
+      } else if (fiber > idealFiber) {
+        healthMsgTemp.append('You are consuming too much fiber! You should consume approximately ' + idealFiber + ' g of fiber.');
+      } else {
+        throw new Error('This is not supossed to happen for fiber heathMsgTemp');
+      }
+    }
   }
 
   const rateHealth = () => {
