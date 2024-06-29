@@ -15,7 +15,7 @@ function App() {
   const [carbohydrates, setCarbohydrates] = useState(0);
   const [score, setScore] = useState(0);
   const [healthiness, setHealthiness] = useState(0);
-  const [healthMsg, setHealthMsg] = useState("");
+  const [healthMsg, setHealthMsg] = useState(["test1", "test2", "test3"]);
   const [activityLevel, setActivityLevel] = useState(0);
 
 
@@ -98,13 +98,11 @@ function App() {
     /**
      * Health Messages:
      * 
-     * They will depend purely on each individual thingScore, and will be appended to an array.
+     * They will depend purely on each individual thingScore, and will be push to an array.
      * 
      * They will look like "Your Fibre intake is too high/low! Ideal amount should be a-b"
      */
 
-    // This variable is a placeholder until jono can fix it
-    let activityLevel;
     // The zero is a placeholder so that we can do activityFactor[activityLevel]
     let activityFactor = [0, 1.2, 1.375, 1.55, 1.725, 1.9];
 
@@ -112,7 +110,7 @@ function App() {
     let idealWeight;
     let lowIdealWeight = 18.5 * Math.pow((height / 100), 2);
     let highIdealWeight = 24.9 * Math.pow((height / 100), 2);
-    if (abs(idealWeight - lowIdealWeight) < abs(idealWeight - highIdealWeight)) {
+    if (Math.abs(idealWeight - lowIdealWeight) < Math.abs(idealWeight - highIdealWeight)) {
       idealWeight = lowIdealWeight;
     } else {
       idealWeight = highIdealWeight;
@@ -153,9 +151,11 @@ function App() {
     // Calculating idealCalorieIntake and calorieScore
     let idealCalorieIntake;
     if (gender == "male") {
-      idealCalorieIntake = ((10 * idealWeight) + (6.25 * height) - (5 * age) + 5) * activityFactor[activityLevel];
-    } else if (gender == "female") {idealWeight
-      idealCalorieIntake = ((10 * idealWeight) + (6.25 * height) - (5 * age) - 161) * activityFactor[activityLevel];
+      idealCalorieIntake = ((13.397 * weight) + (4.799 * height) - (5.677 * age) + 88.362) * activityFactor[activityLevel];
+      //((10 * idealWeight) + (6.25 * height) - (5 * age) + 5) * activityFactor[activityLevel];
+    } else if (gender == "female") {
+      idealCalorieIntake = ((9.247 * weight) + (3.098 * height) - (4.330 * age) + 447.593) * activityFactor[activityLevel];
+      //((10 * idealWeight) + (6.25 * height) - (5 * age) - 161) * activityFactor[activityLevel];
     } else {
       throw new Error('This is not supossed to happen for idealCalorie calculation');
     }
@@ -189,7 +189,7 @@ function App() {
       let lowProteinScore = 100 * Math.abs(protein - lowIdealProteinIntake) / lowIdealProteinIntake;
       let highProteinScore = 100 * Math.abs(protein - highIdealProteinIntake) / highIdealProteinIntake;
 
-      proteinScore = max(lowProteinScore, highProteinScore);
+      proteinScore = Math.max(lowProteinScore, highProteinScore);
     }
 
   
@@ -200,7 +200,7 @@ function App() {
     let highIdealCarbohydrates = 0.25 * idealCalorieIntake * (0.65);
     let highCarbohydratesScore = 100 * Math.abs(carbohydrates - highIdealCarbohydrates) / highIdealCarbohydrates;
 
-    let carbohydratesScore = max(lowCarbohydratesScore, highCarbohydratesScore);
+    let carbohydratesScore = Math.max(lowCarbohydratesScore, highCarbohydratesScore);
 
 
     // Calculating idealFiber and fiberScore
@@ -239,54 +239,59 @@ function App() {
     if (calorieScore <= 20) sinCounter++;
     if (proteinScore <= 60) sinCounter++;
     if (proteinScore <= 30) sinCounter++;
+    if (proteinScore <= 10) sinCounter++;
     if (carbohydratesScore <= 50) sinCounter++;
     if (fiberScore <= 50) sinCounter++;
+    if (fiberScore <= 25) sinCounter++;
+    if (fiberScore <= 25) sinCounter++;
 
     let maxScore = 100 - 10 * sinCounter;
 
     let score = 0.2 * bmiScore + 0.35 * calorieScore + 0.25 * proteinScore + 0.1 * carbohydratesScore + 0.1 * fiberScore;
-    score = min(score, maxScore);
+    score = Math.min(score, maxScore);
+    score = Math.max(score, 0);
+    setScore(Math.floor(score));
 
 
     // Filling out healthMsgTemp[]: string
     let healthMsgTemp = [];
     if (bmi < 18.5) {
-      healthMsgTemp.append('You are underweight! Your ideal weight should be betewen ' + lowIdealWeight + ' kg and ' + highIdealWeight + ' kg.');
+      healthMsgTemp.push('You are underweight! Your ideal weight should be betewen ' + lowIdealWeight + ' kg and ' + highIdealWeight + ' kg.');
     } else if (bmi > 30) {
-      healthMsgTemp.append('You are overweight! Your ideal weight should be betewen ' + lowIdealWeight + ' kg and ' + highIdealWeight + ' kg.');
+      healthMsgTemp.push('You are overweight! Your ideal weight should be betewen ' + lowIdealWeight + ' kg and ' + highIdealWeight + ' kg.');
     }
     if (calorieScore < 70) {
       if (calorie < idealCalorieIntake) {
-        healthMsgTemp.append('You are eating too little! Your ideal calorie intake should be approximately ' + idealCalorieIntake + ' cal.');
+        healthMsgTemp.push('You are eating too little! Your ideal calorie intake should be approximately ' + idealCalorieIntake + ' cal.');
       } else if (calorie > idealCalorieIntake){
-        healthMsgTemp.append('You are eating too much! Your ideal calorie intake should be approximately ' + idealCalorieIntake + ' cal.');
+        healthMsgTemp.push('You are eating too much! Your ideal calorie intake should be approximately ' + idealCalorieIntake + ' cal.');
       } else {
         throw new Error('This is not supossed to happen for calories heathMsgTemp');
       }
     }
     if (proteinScore < 60) {
       if (proteinScore < lowIdealProteinIntake) {
-        healthMsgTemp.append('You are not consuming enough protein! Your ideal protein intake should be between ' + lowIdealProteinIntake + ' g and ' + highIdealProteinIntake + ' g.');
-      } else if (proteinScore > highIdealCarbohydrates){
-        healthMsgTemp.append('You are consuming too much protein! Your ideal protein intake should be between ' + lowIdealProteinIntake + ' g and ' + highIdealProteinIntake + ' g.');
+        healthMsgTemp.push('You are not consuming enough protein! Your ideal protein intake should be between ' + lowIdealProteinIntake + ' g and ' + highIdealProteinIntake + ' g.');
+      } else if (proteinScore > highIdealProteinIntake){
+        healthMsgTemp.push('You are consuming too much protein! Your ideal protein intake should be between ' + lowIdealProteinIntake + ' g and ' + highIdealProteinIntake + ' g.');
       } else {
-        throw new Error('This is not supossed to happen for calories heathMsgTemp');
+        throw new Error('This is not supossed to happen for protein heathMsgTemp');
       }
     }
     if (carbohydratesScore < 70) {
       if (carbohydrates < lowIdealCarbohydrates) {
-        healthMsgTemp.append('You are eating too little Carbohydrates! Your ideal Carbohydrate intake should be between ' + lowIdealCarbohydrates  + ' g and ' + highIdealCarbohydrates + ' g.');
-      } else if (carbohydrates < highIdealCarbohydrates) {
-        healthMsgTemp.append('You are eating too much Carbohydrates! Your ideal Carbohydrate intake should be between ' + lowIdealCarbohydrates  + ' g and ' + highIdealCarbohydrates + ' g.');
+        healthMsgTemp.push('You are eating too little Carbohydrates! Your ideal Carbohydrate intake should be between ' + lowIdealCarbohydrates  + ' g and ' + highIdealCarbohydrates + ' g.');
+      } else if (carbohydrates > highIdealCarbohydrates) {
+        healthMsgTemp.push('You are eating too much Carbohydrates! Your ideal Carbohydrate intake should be between ' + lowIdealCarbohydrates  + ' g and ' + highIdealCarbohydrates + ' g.');
       } else {
         throw new Error('This is not supossed to happen for carbohydrates heathMsgTemp');
       }
     }
     if (fiberScore < 60) {
       if (fiber < idealFiber) {
-        healthMsgTemp.append('You are not consuming enough fiber! You should consume approximately ' + idealFiber + ' g of fiber.');
+        healthMsgTemp.push('You are not consuming enough fiber! You should consume approximately ' + idealFiber + ' g of fiber.');
       } else if (fiber > idealFiber) {
-        healthMsgTemp.append('You are consuming too much fiber! You should consume approximately ' + idealFiber + ' g of fiber.');
+        healthMsgTemp.push('You are consuming too much fiber! You should consume approximately ' + idealFiber + ' g of fiber.');
       } else {
         throw new Error('This is not supossed to happen for fiber heathMsgTemp');
       }
@@ -316,9 +321,9 @@ function App() {
    * 
    */
   const renderHealth = () => {
-    if (healthiness === 0) {
-      return (<></>);
-    }
+    // if (healthiness === 0) {
+    //   return (<></>);
+    // }
     return (
     <>
        <div className='contanier-lg text-light p-5 border rounded text-center'>
@@ -326,7 +331,11 @@ function App() {
         <h4>Your Score: {score}/100</h4>
         <div className='text-wrap w-100'>
           <div class="text-wrap">
-            {healthMsg}
+            {
+              healthMsg.map((msg, index) => {
+                <p>{msg}</p>
+              })
+            }
           </div>
         </div>
        </div>
@@ -443,8 +452,8 @@ function App() {
             <h3 className='text-center'>
               How much activity do you do from 1-5?
             </h3>
-            <label for="carbohydrate">activity level:</label>
-            <input type="number" class="form-control" id="carbohydrate" placeholder="1-5" onChange={e => {
+            <label for="activityLevel">activity level:</label>
+            <input type="number" class="form-control" id="activityLevel" placeholder="1-5" onChange={e => {
               if (e.target.valueAsNumber >= 1 && e.target.valueAsNumber <= 5) {
                 setActivityLevel(e.target.valueAsNumber);
               }
