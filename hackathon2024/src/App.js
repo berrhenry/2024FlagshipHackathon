@@ -16,6 +16,7 @@ function App() {
   const [score, setScore] = useState(0);
   const [healthiness, setHealthiness] = useState(0);
   const [healthMsg, setHealthMsg] = useState("");
+  const [activityLevel, setActivityLevel] = useState(0);
 
 
   const [showBanner, setShowBanner] = useState(true);
@@ -392,6 +393,17 @@ function App() {
             </h3>
             <label for="carbohydrate">carbohydrate:</label>
             <input type="number" class="form-control" id="carbohydrate" placeholder="Enter carbohydrate (g)" onChange={e => setCarbohydrates(e.target.valueAsNumber)}></input>
+          </div>
+          <div className='container-md bg-transparent rounded d-flex flex-column w-75 mb-5'>
+            <h3 className='text-center'>
+              How much activity do you do from 1-5?
+            </h3>
+            <label for="carbohydrate">activity level:</label>
+            <input type="number" class="form-control" id="carbohydrate" placeholder="1-5" onChange={e => {
+              if (e.target.valueAsNumber >= 1 && e.target.valueAsNumber <= 5) {
+                setActivityLevel(e.target.valueAsNumber);
+              }
+            }}></input>
           </div>
           <button className='btn btn-primary mb-5' onClick={() => healthCalculation()}>
             Calculate Score!
