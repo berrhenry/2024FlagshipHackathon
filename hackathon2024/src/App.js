@@ -135,8 +135,7 @@ function App() {
      * They will look like "Your Fibre intake is too high/low! Ideal amount should be a-b"
      */
 
-    // The zero is a placeholder so that we can do activityFactor[activityLevel]
-
+    // Checking that all the values are in range
     const msg = checkValues();
     if (msg !== "") {
       setErrorMsg(msg);
@@ -144,6 +143,7 @@ function App() {
       return;
     }
 
+    // The zero is a placeholder so that we can do activityFactor[activityLevel]
     let activityFactor = [0, 1.2, 1.375, 1.55, 1.725, 1.9];
 
     // Calculate idealWeight - This will be used in some formulas
@@ -156,39 +156,39 @@ function App() {
       idealWeight = highIdealWeight;
     }
 
-    // Calculating bmiIdeal, and bmiScore
+    // Calculating bmiIdeal, and bmiError
     let bmi = weight / ((height/100) * (height/100));
-    let bmiScore;
+    let bmiError;
     if (bmi < 10) {
-      bmiScore = 30           // 0-10
+      bmiError = 90;           // 0-10
     } else if (bmi < 16) {
-      bmiScore = 40           // 10-16
+      bmiError = 75;           // 10-16
     } else if (bmi < 17) {
-      bmiScore = 60           // 16-17
+      bmiError = 60;           // 16-17
     } else if (bmi < 18) {
-      bmiScore = 70           // 17-18
+      bmiError = 45;           // 17-18
     } else if (bmi < 18.5) {
-      bmiScore = 75           // 18-18.5
+      bmiError = 30;           // 18-18.5
     } else if (bmi < 25) {
-      bmiScore = 100          // 18.5-24.9
+      bmiError = 0;            // 18.5-24.9
     } else if (bmi < 30) {
       if (activityLevel > 3) {
-        bmiScore = 90
+        bmiError = 20;
       } else {
-        bmiScore = 70           // 25-29.9
+        bmiError = 40;         // 25-29.9
       }
     } else {
-      if (activityLevel > 5) {
-        bmiScore = 80
-      } else if (activityLevel > 3) {
-        bmiScore = 60
+      if (activityLevel >= 5) {
+        bmiError = 20;
+      } else if (activityLevel >= 3) {
+        bmiError = 50;
       } else {
-        bmiScore = 40           // 30+
+        bmiError = 80;           // 30+
       }
     }
 
   
-    // Calculating idealCalorieIntake and calorieScore
+    // Calculating idealCalorieIntake and calorieError
     let idealCalorieIntake;
     if (gender == "male") {
       idealCalorieIntake = ((13.397 * weight) + (4.799 * height) - (5.677 * age) + 88.362) * activityFactor[activityLevel];
@@ -200,7 +200,7 @@ function App() {
       throw new Error('This is not supossed to happen for idealCalorie calculation');
     }
 
-    let calorieScore = 100 * Math.abs(calorie - idealCalorieIntake) / idealCalorieIntake;
+    let calorieError = Math.min(100 * Math.abs(calorie - idealCalorieIntake) / idealCalorieIntake, 100);
 
 
     // Calculating idealProteinIntake and proteinScore
@@ -273,7 +273,9 @@ function App() {
 
     // Finding out where to cap the finalScore (score)
     let sinCounter = 0;
+    if (bmiScore <= 70) sinCounter++;
     if (bmiScore <= 50) sinCounter++;
+    if (bmiScore <= 30) sinCounter++;
     if (calorieScore <= 60) sinCounter++;
     if (calorieScore <= 40) sinCounter++;
     if (calorieScore <= 20) sinCounter++;
