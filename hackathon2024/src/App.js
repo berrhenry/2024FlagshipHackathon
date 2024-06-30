@@ -281,15 +281,12 @@ function App() {
     if (bmiError >= 70) sinCounter++;
     if (bmiError >= 50) sinCounter++;
     if (bmiError >= 30) sinCounter++;
-    if (calorieError >= 60) sinCounter++;
     if (calorieError >= 40) sinCounter++;
     if (calorieError >= 20) sinCounter++;
-    if (proteinError >= 60) sinCounter++;
     if (proteinError >= 30) sinCounter++;
     if (proteinError >= 10) sinCounter++;
     if (carbohydratesError >= 50) sinCounter++;
     if (fiberError >= 50) sinCounter++;
-    if (fiberError >= 25) sinCounter++;
 
     let maxScore = 100 - 10 * sinCounter;
 
