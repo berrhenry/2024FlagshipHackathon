@@ -462,12 +462,12 @@ function App() {
     <main className="h-100 bg-dark">
       <div className=' container-lg pt-5 overflow-auto'>
         <h1 className='text-light text-center'>
-          Health score calculator
+          Health score calculator 🖩
         </h1>
         <div className='contanier-lg d-flex text-light flex-column p-5'>
           <div className='container-md bg-transparent rounded h-25 d-flex flex-column w-75 mb-3'>
             <h3 className='text-center'>
-              What is your gender
+              What is your gender?
             </h3>
             <div className='d-flex flex-col justify-content-between pt-3'>
               {renderGenderButtons()}
@@ -485,7 +485,7 @@ function App() {
               How much do you weigh?
             </h3>
             <label for="weight">weight:</label>
-            <input type="number" className="form-control" id="weight" placeholder="Enter weight" onChange={e => setWeight(e.target.valueAsNumber)}></input>
+            <input type="number" className="form-control" id="weight" placeholder="Enter weight in KG" onChange={e => setWeight(e.target.valueAsNumber)}></input>
           </div>
           <div className='container-md bg-transparent rounded d-flex flex-column w-75 mb-5'>
             <h3 className='text-center'>
@@ -499,28 +499,28 @@ function App() {
               What is your average calorie intake?
             </h3>
             <label for="calorie">calorie:</label>
-            <input type="number" className="form-control" id="calorie" placeholder="Enter calorie" onChange={e => setCalorie(e.target.valueAsNumber)}></input>
+            <input type="number" className="form-control" id="calorie" placeholder="Enter calorie in KJ" onChange={e => setCalorie(e.target.valueAsNumber)}></input>
           </div>
           <div className='container-md bg-transparent rounded d-flex flex-column w-75 mb-5'>
             <h3 className='text-center'>
               What is your average protein intake?
             </h3>
             <label for="protein">protein:</label>
-            <input type="number" className="form-control" id="protein" placeholder="Enter Protein" onChange={e => setProtein(e.target.valueAsNumber)}></input>
+            <input type="number" className="form-control" id="protein" placeholder="Enter Protein in grams" onChange={e => setProtein(e.target.valueAsNumber)}></input>
           </div>
           <div className='container-md bg-transparent rounded d-flex flex-column w-75 mb-5'>
             <h3 className='text-center'>
               What is your average fiber intake?
             </h3>
             <label for="fiber">fiber:</label>
-            <input type="number" className="form-control" id="fiber" placeholder="Enter fiber" onChange={e => setFiber(e.target.valueAsNumber)}></input>
+            <input type="number" className="form-control" id="fiber" placeholder="Enter fiber in grams" onChange={e => setFiber(e.target.valueAsNumber)}></input>
           </div>
           <div className='container-md bg-transparent rounded d-flex flex-column w-75 mb-5'>
             <h3 className='text-center'>
               What is your average carbohydrate intake?
             </h3>
             <label for="carbohydrate">carbohydrate:</label>
-            <input type="number" className="form-control" id="carbohydrate" placeholder="Enter carbohydrate (g)" onChange={e => setCarbohydrates(e.target.valueAsNumber)}></input>
+            <input type="number" className="form-control" id="carbohydrate" placeholder="Enter carbohydrate in grams" onChange={e => setCarbohydrates(e.target.valueAsNumber)}></input>
           </div>
           <div className='container-md bg-transparent rounded d-flex flex-column w-75 mb-5'>
             <h3 className='text-center'>
