@@ -241,8 +241,8 @@ function App() {
     let highIdealCarbohydrates = 0.25 * idealCalorieIntake * (0.65);
     let highCarbohydratesError = 100 * Math.abs(carbohydrates - highIdealCarbohydrates) / highIdealCarbohydrates;
 
-    let carbohydratesScore = Math.min(lowCarbohydratesError, highCarbohydratesError);
-    carbohydratesScore = Math.min(carbohydratesScore, 100);
+    let carbohydratesError = Math.min(lowCarbohydratesError, highCarbohydratesError);
+    carbohydratesError = Math.min(carbohydratesScore, 100);
 
 
     // Calculating idealFiber and fiberScore
@@ -275,23 +275,22 @@ function App() {
 
     // Finding out where to cap the finalScore (score)
     let sinCounter = 0;
-    if (bmiScore <= 70) sinCounter++;
-    if (bmiScore <= 50) sinCounter++;
-    if (bmiScore <= 30) sinCounter++;
-    if (calorieScore <= 60) sinCounter++;
-    if (calorieScore <= 40) sinCounter++;
-    if (calorieScore <= 20) sinCounter++;
-    if (proteinScore <= 60) sinCounter++;
-    if (proteinScore <= 30) sinCounter++;
-    if (proteinScore <= 10) sinCounter++;
-    if (carbohydratesScore <= 50) sinCounter++;
-    if (fiberScore <= 50) sinCounter++;
-    if (fiberScore <= 25) sinCounter++;
-    if (fiberScore <= 25) sinCounter++;
+    if (bmiError >= 70) sinCounter++;
+    if (bmiError >= 50) sinCounter++;
+    if (bmiError >= 30) sinCounter++;
+    if (calorieError >= 60) sinCounter++;
+    if (calorieError >= 40) sinCounter++;
+    if (calorieError >= 20) sinCounter++;
+    if (proteinError >= 60) sinCounter++;
+    if (proteinError >= 30) sinCounter++;
+    if (proteinError >= 10) sinCounter++;
+    if (carbohydratesError >= 50) sinCounter++;
+    if (fiberError >= 50) sinCounter++;
+    if (fiberError >= 25) sinCounter++;
 
     let maxScore = 100 - 10 * sinCounter;
 
-    let score = 0.2 * bmiScore + 0.35 * calorieScore + 0.25 * proteinScore + 0.1 * carbohydratesScore + 0.1 * fiberScore;
+    let score = 100 - (0.2 * bmiError + 0.35 * calorieError + 0.25 * proteinError + 0.1 * carbohydratesError + 0.1 * fiberError;)
     score = Math.min(score, maxScore);
     score = Math.max(score, 0);
     setScore(Math.floor(score));
