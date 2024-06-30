@@ -24,7 +24,7 @@ function App() {
   const checkValues = () => {
     var msg = "";
     if (gender === "") {
-      msg = msg.concat("Please select a gender");
+      msg = msg.concat("Please select a gender\n");
     }
     if (age < 9 || age > 100) {
       msg = msg.concat("Please input valid age(9-100)\n");
