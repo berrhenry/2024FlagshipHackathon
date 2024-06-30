@@ -21,6 +21,10 @@ function App() {
   const [errorMsg, setErrorMsg] = useState("");
   const [showBanner, setShowBanner] = useState(true);
 
+  useEffect(() => {
+    document.title = 'My Health Calculator';
+  }, []);
+
   const checkValues = () => {
     var msg = "";
     if (gender === "") {
