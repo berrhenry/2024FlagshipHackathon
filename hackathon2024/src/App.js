@@ -222,14 +222,15 @@ function App() {
       highIdealProteinIntake *= 1.2;
     }
 
-    let proteinScore;
-    if (lowIdealProteinIntake >= protein && highIdealProteinIntake <= protein) {
-      proteinScore = 100;
+    let proteinError;
+    if (lowIdealProteinIntake <= protein && highIdealProteinIntake >= protein) {
+      proteinError = 100;
     } else {
-      let lowProteinScore = 100 * Math.abs(protein - lowIdealProteinIntake) / lowIdealProteinIntake;
-      let highProteinScore = 100 * Math.abs(protein - highIdealProteinIntake) / highIdealProteinIntake;
+      let lowProteinError = 100 * Math.abs(protein - lowIdealProteinIntake) / lowIdealProteinIntake;
+      let highProteinError = 100 * Math.abs(protein - highIdealProteinIntake) / highIdealProteinIntake;
 
-      proteinScore = Math.max(lowProteinScore, highProteinScore);
+      proteinScore = Math.min(lowProteinError, highProteinError);
+      proteinScore = Math.min(proteinScore, 100);
     }
 
   
