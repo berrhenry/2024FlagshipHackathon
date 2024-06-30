@@ -311,46 +311,47 @@ function App() {
     // Filling out healthMsgTemp[]: string
     let healthMsgTemp = [];
     if (bmi < 18.5) {
-      healthMsgTemp.push('You are underweight! Your ideal weight should be betewen ' + lowIdealWeight + ' kg and ' + highIdealWeight + ' kg.');
+      healthMsgTemp.push('You are underweight! Your ideal weight should be betewen ' + Math.floor(lowIdealWeight) + ' kg and ' + Math.floor(highIdealWeight) + ' kg.');
     } else if (bmi > 30) {
-      healthMsgTemp.push('You are overweight! Your ideal weight should be betewen ' + lowIdealWeight + ' kg and ' + highIdealWeight + ' kg.');
+      healthMsgTemp.push('You are overweight! Your ideal weight should be betewen ' + Math.floor(lowIdealWeight) + ' kg and ' + Math.floor(highIdealWeight) + ' kg.');
     }
     if (calorieError > 30) {
       if (calorie < idealCalorieIntake) {
-        healthMsgTemp.push('You are eating too little! Your ideal calorie intake should be approximately ' + idealCalorieIntake + ' cal.');
+        healthMsgTemp.push('You are eating too little! Your ideal calorie intake should be approximately ' + Math.floor(idealCalorieIntake) + ' cal.');
       } else if (calorie > idealCalorieIntake){
-        healthMsgTemp.push('You are eating too much! Your ideal calorie intake should be approximately ' + idealCalorieIntake + ' cal.');
+        healthMsgTemp.push('You are eating too much! Your ideal calorie intake should be approximately ' + Math.floor(idealCalorieIntake) + ' cal.');
       } else {
         throw new Error('This is not supossed to happen for calories heathMsgTemp');
       }
     }
     if (proteinError > 30) {
       if (protein < lowIdealProteinIntake) {
-        healthMsgTemp.push('You are not consuming enough protein! Your ideal protein intake should be between ' + lowIdealProteinIntake + ' g and ' + highIdealProteinIntake + ' g.');
+        healthMsgTemp.push('You are not consuming enough protein! Your ideal protein intake should be between ' + Math.floor(lowIdealProteinIntake) + ' g and ' + Math.floor(highIdealProteinIntake) + ' g.');
       } else if (protein > highIdealProteinIntake){
-        healthMsgTemp.push('You are consuming too much protein! Your ideal protein intake should be between ' + lowIdealProteinIntake + ' g and ' + highIdealProteinIntake + ' g.');
+        healthMsgTemp.push('You are consuming too much protein! Your ideal protein intake should be between ' + Math.floor(lowIdealProteinIntake) + ' g and ' + Math.floor(highIdealProteinIntake) + ' g.');
       } else {
         throw new Error('This is not supossed to happen for protein heathMsgTemp');
       }
     }
     if (carbohydratesError > 30) {
       if (carbohydrates < lowIdealCarbohydrates) {
-        healthMsgTemp.push('You are eating too little Carbohydrates! Your ideal Carbohydrate intake should be between ' + lowIdealCarbohydrates  + ' g and ' + highIdealCarbohydrates + ' g.');
+        healthMsgTemp.push('You are eating too little Carbohydrates! Your ideal Carbohydrate intake should be between ' + Math.floor(lowIdealCarbohydrates)  + ' g and ' + Math.floor(highIdealCarbohydrates) + ' g.');
       } else if (carbohydrates > highIdealCarbohydrates) {
-        healthMsgTemp.push('You are eating too much Carbohydrates! Your ideal Carbohydrate intake should be between ' + lowIdealCarbohydrates  + ' g and ' + highIdealCarbohydrates + ' g.');
+        healthMsgTemp.push('You are eating too much Carbohydrates! Your ideal Carbohydrate intake should be between ' + Math.floor(lowIdealCarbohydrates)  + ' g and ' + Math.floor(highIdealCarbohydrates) + ' g.');
       } else {
         throw new Error('This is not supossed to happen for carbohydrates heathMsgTemp');
       }
     }
     if (fiberError > 40) {
       if (fiber < idealFiber) {
-        healthMsgTemp.push('You are not consuming enough fiber! You should consume approximately ' + idealFiber + ' g of fiber.');
+        healthMsgTemp.push('You are not consuming enough fiber! You should consume approximately ' + Math.floor(idealFiber) + ' g of fiber.');
       } else if (fiber > idealFiber) {
-        healthMsgTemp.push('You are consuming too much fiber! You should consume approximately ' + idealFiber + ' g of fiber.');
+        healthMsgTemp.push('You are consuming too much fiber! You should consume approximately ' + Math.floor(idealFiber) + ' g of fiber.');
       } else {
         throw new Error('This is not supossed to happen for fiber heathMsgTemp');
       }
     }
+    setHealthMsg(healthMsgTemp);
   }
 
   const rateHealth = () => {
