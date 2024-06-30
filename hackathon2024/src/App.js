@@ -328,9 +328,9 @@ function App() {
       }
     }
     if (proteinError > 30) {
-      if (proteinScore < lowIdealProteinIntake) {
+      if (protein < lowIdealProteinIntake) {
         healthMsgTemp.push('You are not consuming enough protein! Your ideal protein intake should be between ' + lowIdealProteinIntake + ' g and ' + highIdealProteinIntake + ' g.');
-      } else if (proteinScore > highIdealProteinIntake){
+      } else if (protein > highIdealProteinIntake){
         healthMsgTemp.push('You are consuming too much protein! Your ideal protein intake should be between ' + lowIdealProteinIntake + ' g and ' + highIdealProteinIntake + ' g.');
       } else {
         throw new Error('This is not supossed to happen for protein heathMsgTemp');
