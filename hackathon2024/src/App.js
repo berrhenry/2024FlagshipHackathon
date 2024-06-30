@@ -236,12 +236,13 @@ function App() {
   
     // Calculating idealCarbohydrates and carbohydratesScore
     let lowIdealCarbohydrates = 0.25 * idealCalorieIntake * (0.45);
-    let lowCarbohydratesScore = 100 * Math.abs(carbohydrates - lowIdealCarbohydrates) / lowIdealCarbohydrates;
+    let lowCarbohydratesError = 100 * Math.abs(carbohydrates - lowIdealCarbohydrates) / lowIdealCarbohydrates;
     
     let highIdealCarbohydrates = 0.25 * idealCalorieIntake * (0.65);
-    let highCarbohydratesScore = 100 * Math.abs(carbohydrates - highIdealCarbohydrates) / highIdealCarbohydrates;
+    let highCarbohydratesError = 100 * Math.abs(carbohydrates - highIdealCarbohydrates) / highIdealCarbohydrates;
 
-    let carbohydratesScore = Math.max(lowCarbohydratesScore, highCarbohydratesScore);
+    let carbohydratesScore = Math.min(lowCarbohydratesError, highCarbohydratesError);
+    carbohydratesScore = Math.min(carbohydratesScore, 100);
 
 
     // Calculating idealFiber and fiberScore
@@ -269,7 +270,7 @@ function App() {
     } else {
       throw new Error('This is not supossed to happen for idealFibre calculation');
     }
-    let fiberScore = 100 * Math.abs(fiber - idealFiber) / idealFiber;
+    let fiberError = Math.min(100 * Math.abs(fiber - idealFiber) / idealFiber, 100);
 
 
     // Finding out where to cap the finalScore (score)
