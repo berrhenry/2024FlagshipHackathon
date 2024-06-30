@@ -524,9 +524,7 @@ function App() {
             </h3>
             <label for="activityLevel">activity level:</label>
             <input type="number" className="form-control" id="activityLevel" placeholder="1-5" onChange={e => {
-              if (e.target.valueAsNumber >= 1 && e.target.valueAsNumber <= 5) {
-                setActivityLevel(e.target.valueAsNumber);
-              }
+              setActivityLevel(e.target.valueAsNumber);
             }}></input>
           </div>
           <button className='btn btn-primary mb-5' onClick={() => healthCalculation()}>
