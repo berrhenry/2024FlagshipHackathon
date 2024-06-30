@@ -29,11 +29,11 @@ function App() {
     if (age < 9 || age > 100) {
       msg = msg.concat("Please input valid age(9-100)\n");
     }
-    if (height < 120 || height > 220) {
-      msg = msg.concat("Please input valid height(120-220)\n");
-    }
     if (weight < 20 || weight > 200) {
       msg = msg.concat("Please input valid weight(20-200)\n")
+    }
+    if (height < 120 || height > 220) {
+      msg = msg.concat("Please input valid height(120-220)\n");
     }
     if (calorie < 500 || calorie > 10000) {
       msg = msg.concat("Please input valid calorie(500-10000)\n");
@@ -41,11 +41,11 @@ function App() {
     if (protein < 10 || protein > 200) {
       msg = msg.concat("Please input valid protein(10-200)\n");
     }
-    if (carbohydrates < 50 || carbohydrates > 1000) {
-      msg = msg.concat("Please input valid carbohydrates(50-1000)\n");
-    }
     if (fiber < 5 || fiber > 100) {
       msg = msg.concat("Please input valid fiber(5-100)\n");
+    }
+    if (carbohydrates < 50 || carbohydrates > 1000) {
+      msg = msg.concat("Please input valid carbohydrates(50-1000)\n");
     }
     if (activityLevel < 1 || activityLevel > 5) {
       msg = msg.concat("Please input valid activity level\n");
