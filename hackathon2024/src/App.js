@@ -231,7 +231,7 @@ function App() {
 
     let proteinError;
     if (lowIdealProteinIntake <= protein && highIdealProteinIntake >= protein) {
-      proteinError = 100;
+      proteinError = 0;
     } else {
       let lowProteinError = 100 * Math.abs(protein - lowIdealProteinIntake) / lowIdealProteinIntake;
       let highProteinError = 100 * Math.abs(protein - highIdealProteinIntake) / highIdealProteinIntake;
@@ -242,14 +242,18 @@ function App() {
 
   
     // Calculating idealCarbohydrates and carbohydratesScore
+    let carbohydratesError;
     let lowIdealCarbohydrates = 0.25 * idealCalorieIntake * (0.45);
-    let lowCarbohydratesError = 100 * Math.abs(carbohydrates - lowIdealCarbohydrates) / lowIdealCarbohydrates;
-    
     let highIdealCarbohydrates = 0.25 * idealCalorieIntake * (0.65);
-    let highCarbohydratesError = 100 * Math.abs(carbohydrates - highIdealCarbohydrates) / highIdealCarbohydrates;
+    if (lowIdealCarbohydrates <= carbohydrates && carbohydrates <= highIdealCarbohydrates) {
+      carbohydratesError = 0;
+    } else {
+      let lowCarbohydratesError = 100 * Math.abs(carbohydrates - lowIdealCarbohydrates) / lowIdealCarbohydrates;
+      let highCarbohydratesError = 100 * Math.abs(carbohydrates - highIdealCarbohydrates) / highIdealCarbohydrates;
 
-    let carbohydratesError = Math.min(lowCarbohydratesError, highCarbohydratesError);
-    carbohydratesError = Math.min(carbohydratesError, 100);
+      carbohydratesError = Math.min(lowCarbohydratesError, highCarbohydratesError);
+      carbohydratesError = Math.min(carbohydratesError, 100);
+    }
 
 
     // Calculating idealFiber and fiberScore
